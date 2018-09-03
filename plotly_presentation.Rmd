@@ -1,0 +1,62 @@
+---
+title: "New House Prices in Ireland"
+author: "J.Phillips"
+date: "3 September 2018"
+output: ioslides_presentation
+---
+
+
+## Dataset
+
+This project visualises a dataset from [housing.gov.ie](https://www.housing.gov.ie/housing/statistics/house-prices-loans-and-profile-borrowers/house-price-statistics) to show the price of a new house build in 5 major cities in the Republic of Ireland over the period 1997 to 2016.
+
+--- 
+
+
+### Plot
+
+```{r message=FALSE, echo=FALSE}
+library(plotly)
+library(dplyr)
+```
+```{r echo=FALSE, warning=FALSE}
+df <- read.table("price-new-house-area-by_year.csv", header=TRUE, sep=",", skip=1)
+colnames(df)[1] <- "Year"
+df <- df[1:20, -c(2,8)]
+
+df_melted <- reshape2::melt(df, id.vars ="Year",
+                            variable.name = "City",
+                            value.name = "Price")
+df_melted$Price <- as.numeric(gsub(",","", df_melted$Price)) / 1000
+
+plot_ly(df_melted, y=~Price, x=~Year, color=~City, mode="lines", type="scatter") %>%
+    layout(yaxis=list(title="Price in Thousands of Euro"))
+
+
+```
+
+--- 
+
+
+
+### Code
+
+```{r eval=FALSE}
+library(plotly)
+library(dplyr)
+df <- read.table("price-new-house-area-by_year.csv", 
+                 header=TRUE, sep=",", skip=1)
+colnames(df)[1] <- "Year"
+df <- df[1:20, -c(2,8)]
+
+df_melted <- reshape2::melt(df, id.vars ="Year",
+                            variable.name = "City",
+                            value.name = "Price")
+df_melted$Price <- as.numeric(gsub(",","", df_melted$Price))
+
+plot_ly(df_melted, 
+        y=~Price / 1000, x=~Year, color=~City, 
+        mode="lines", type="scatter") %>%
+    layout(yaxis="Price in Thousands of Euro")
+
+```
