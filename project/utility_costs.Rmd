@@ -1,0 +1,58 @@
+---
+title: "Utility Costs in Ireland"
+author: "J.Phillips"
+date: "16 September 2018"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Overview
+This project visualises the cost of electricity and gas for a 3 bedroom house in Dublin, Ireland between 2013 and 2016. The house uses a gas boiler for heating.
+
+---
+
+### Dataset
+
+This dataset was created from old paper bills that I had hanging around before we changed providers and the bills moved online. If I could find the password to that account, I would add the subsequent years in - but it is proving to be elusive at the moment.
+
+```{r echo=FALSE}
+df <- read.csv("./data/gas-electricity-prices.csv")
+head(df)
+```
+
+---
+
+### Data manipulation
+
+As the date range of each bill varied quite widely, I divided the total cost by the number of days in the date range to obtain the cost in Euros per day.
+
+```{r eval=FALSE}
+for (i in 1:dim(df)[1]) {
+    startDt <- df$start_date[i]
+    endDt <- df$end_date[i]
+    dates <- seq.Date(startDt, endDt, "day")
+    df$total_days[i] <- length(dates)
+    # calculate per day rate
+    df$amount_per_day[i] <- as.numeric(
+        as.character(format(
+            round(
+                df$amount[i] / df$total_days[i], 
+                digits=2), nsmall=2)))
+}
+```
+
+---
+
+### Instructions
+
+- Use the slider in the side panel to select the date range.
+
+- Use the dropdown list to select what you want to plot.
+
+- Use the checkbox to see a more detailed description.
+
+Note that the y-axis range changes depending on which plot you choose. Selecting to view only electricity gives a clearer view of the seasonal cost fluctuation although it is much less evident than the seasonal cost fluctuation of gas.
+
