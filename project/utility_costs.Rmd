@@ -18,7 +18,7 @@ This project visualises the cost of electricity and gas for a 3 bedroom house in
 
 This dataset was created from old paper bills that I had hanging around before we changed providers and the bills moved online. If I could find the password to that account, I would add the subsequent years in - but it is proving to be elusive at the moment.
 
-```{r echo=FALSE}
+```{r}
 df <- read.csv("./data/gas-electricity-prices.csv")
 head(df)
 ```
