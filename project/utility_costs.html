@@ -108,6 +108,9 @@
 
 <p>This dataset was created from old paper bills that I had hanging around before we changed providers and the bills moved online. If I could find the password to that account, I would add the subsequent years in - but it is proving to be elusive at the moment.</p>
 
+<pre class = 'prettyprint lang-r'>df &lt;- read.csv(&quot;./data/gas-electricity-prices.csv&quot;)
+head(df)</pre>
+
 <pre >##   id start_date   end_date        type amount total_days
 ## 1  1 2012-07-12 2012-07-31 electricity  29.92         NA
 ## 2  2 2012-08-01 2012-09-04 electricity  51.02         NA
